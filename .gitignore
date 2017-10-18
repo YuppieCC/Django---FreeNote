@@ -1,6 +1,7 @@
 # Virtual environment
 venv
 tmp
+migrations
 
 *.pyc
 *.sqlite

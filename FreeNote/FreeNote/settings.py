@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """
 Django settings for FreeNote project.
 
@@ -13,7 +15,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))      # '/Django-FreeNote/'
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,7 +27,9 @@ SECRET_KEY = 'p)-93tk!+g)-h)v4wcm*62q1hpy907+1u(a8c90#we1b-v&43g'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+
+DOMAIN = 'http://127.0.0.1:8000'
 
 
 # Application definition
@@ -37,6 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'pencil',
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 
 MIDDLEWARE = [
@@ -75,8 +82,13 @@ WSGI_APPLICATION = 'FreeNote.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': 'FreeNote',
+        'USER': 'root',
+        'PASSWORD': 'DUO',
+        'HOST': '127.0.0.1',
+        'PORT': '3306', 
     }
 }
 
@@ -118,3 +130,39 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+'''
+STATIC_URL:
+
+默认值: None
+
+引用位于 STATIC_ROOT 中的静态文件时使用的网址。
+
+示例："/static/"或"http://static.example.com/"
+'''
+
+STATIC_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')    # '/Django-FreeNote/FreeNote/static'
+
+STATIC_ROOT = os.path.join(BASE_DIR,'static/')  
+'''
+STATIC_ROOT:
+
+默认: None
+
+collectstatic用于部署而收集的静态文件的目录的绝对路径。
+
+示例："/var/www/example.com/static/"
+'''
+
+STATICFILES_DIRS = (
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static'),     # '/Django-FreeNote/FreeNote/static'
+)
+
+
+# Ckeditor settings
+CKEDITOR_UPLOAD_PATH = "uploads/"
+
+
+# media文件夹用来存放用户上传的文件，与权限有关，详情见 Django 静态文件和部署
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'media') # '/Django-FreeNote/FreeNote/media'
