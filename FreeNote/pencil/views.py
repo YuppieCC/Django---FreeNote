@@ -2,5 +2,10 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render
+from django.conf import settings
 
-# Create your views here.
+def Home(request):
+	return render(request, 'site/home.html')
+
+def index(request):
+	return render(request, 'site/index.html')

@@ -1,0 +1,93 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image" href="https://en.gravatar.com/userimage/113672373/9c021ba03fa56ddd1d94a7278dc55b2a.png">
+
+    <title>FreeNote - {% block title %}{% endblock %}</title>
+
+    <!-- Bootstrap core CSS -->
+
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://getbootstrap.com/docs/3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://getbootstrap.com/docs/3.3/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <link href="https://getbootstrap.com/docs/3.3/examples/dashboard/dashboard.css" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css" rel="stylesheet">
+
+    <script src="https://getbootstrap.com/docs/3.3/assets/js/ie-emulation-modes-warning.js"></script>
+
+  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+  </head>
+  <body  style="background-color:#f3f3f3;">
+  	
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand"  href="{% url 'Home' %}"><i class="fa fa-home fa-fw"></i>FreeNote</a>
+          
+          {% if user.is_authenticated %}
+          <a class="navbar-brand" href="#"><i class="fa fa-book"></i> 我的笔记</a>
+          <a class="navbar-brand" href="#"><i class="fa fa-plus"></i> 新建</a>
+          {% endif %}
+
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+                {% if user.is_authenticated %}
+                    <form class="navbar-form navbar-left">
+            			<!-- <input type="text" class="form-control" placeholder="Search..."> -->
+          		    </form>
+                    <li><a href="#"><i class="fa fa-refresh"></i>修改密码</a></li>
+                    <li><a href="#"><i class="fa fa-user"></i>个人</a></li>
+                    <li><a href="#"><i class="fa fa-power-off"></i>注销</a></li>
+                {% else %}
+                    <li><a href="#"><i class="fa fa-key"></i>登录</a></li>
+                    <li><a href="#"><i class="fa fa-id-card"></i>注册</a></li>
+                {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- <div class="col-sm-9 col-sm-offset-3 col-md-8 col-md-offset-2"> -->
+    <div class="main">
+        {% block content %}{% endblock %}
+    </div>
+    
+     
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="https://getbootstrap.com/docs/3.3/dist/js/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="https://getbootstrap.com/docs/3.3/assets/js/vendor/holder.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="https://getbootstrap.com/docs/3.3/assets/js/ie10-viewport-bug-workaround.js"></script>
+    <br />
+    <br />
+
+  </body>
+</html>
+
