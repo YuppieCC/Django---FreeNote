@@ -119,7 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -127,6 +127,39 @@ USE_L10N = True
 
 USE_TZ = True
 
+# registration
+REGISTRATION_OPEN = True       # If True, users can register
+ACCOUNT_ACTIVATION_DAYS = 7     # One-week activation window; you may, of course, use a different value.
+REGISTRATION_AUTO_LOGIN = True  # If True, the user will be automatically logged in.
+LOGIN_REDIRECT_URL = '/index/'   # The page you want users to arrive at after they successful login
+LOGIN_URL = 'accounts/login/'   # The page users are directed to if they are not logged in,
+                                        # and are trying to access pages requiring authentication
+PASSWORD_CHANGE_REDIRECT_URL = '/index/'
+
+# CKeditor settings
+CKEDITOR_JQUERY_URL ='https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js'
+CKEDITOR_UPLOAD_PATH = "uploads/"
+DITOR_IMAGE_BACKEND = 'pillow'
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'height': 500,
+        'width': 790,
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Undo', 'Redo'],
+            ['Format',],
+            ['Bold', 'Italic', 'Underline', 'Strike'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-'],
+            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'], 
+            ['Link', 'Unlink'],
+            ['RemoveFormat', ],
+            ['Image', 'Table', 'SpecialChar'],
+            ['TextColor', 'BGColor'],
+        ]
+    },
+
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/

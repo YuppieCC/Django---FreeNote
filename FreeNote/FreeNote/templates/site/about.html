@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}about{% endblock %}
+
+{% block content %}
+
+<br />
+<div class="container">
+    <div class="container">
+        <div class="col-md-offset-3 col-md-6">
+    
+            <form id="login-form" class="form-horizontal">
+                {% if user.is_authenticated %}
+                	<span class="heading">用户资料</span>
+                
+               		<div class="form-group">
+                		<div class="form-control">
+                			<i class="fa fa-user" style="color: black;"> : {{ user.username }}</i>
+                		</div>
+                	</div>
+                	<div class="form-group">
+                		<div class="form-control">
+                	    	<i class="fa fa-envelope-o" style="color: black;"> : {{ user.email }}</i>
+                		</div>
+                	</div>
+               	{% endif %}
+            </form>
+            <br>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
