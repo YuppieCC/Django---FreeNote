@@ -14,4 +14,5 @@ urlpatterns = [
     url(r'^index/', include('pencil.urls')),
 
     url(r'^accounts/', include('registration.backends.simple.urls')),
+    
 ]

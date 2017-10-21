@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}delete confirm{% endblock %}
+
+{% block content %} 
+
+<div class="col-sm-9 col-sm-offset-3 col-md-8 col-md-offset-2">
+    <h4><a href="{% url 'note_list' user.username %}"><i class="fa fa-reply"></i></a></h4>
+    <span class="heading">
+    </span>
+
+    <div class="Card">
+        <h4>
+            <h3>{{ note.title }}</h3>
+        </h4>
+        记录于： {{ note.pub_time|date:"Y-m-d H:i" }}
+        <hr>
+        {% autoescape off %}
+            {{ note.excerpts  }}...
+        {% endautoescape %}
+        <br>
+        <p><a href="{% url 'note' note.author note.id%}">全文</a></p>
+    </div>
+
+    <br>
+    <div class="alert alert-danger" style="">
+        <p style="color: black;">
+            你确定要删除这篇笔记 ?
+        </p>
+    </div>
+    <form method="post" action=".">
+        {% csrf_token %}
+        <button type="submit" name="Delete" class="btn btn-default" style="float: right;"><i class="fa fa-check"></i></button>
+    </form>
+</div>
+
+{% endblock %}

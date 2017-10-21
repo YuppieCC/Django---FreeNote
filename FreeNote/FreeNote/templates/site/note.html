@@ -11,8 +11,8 @@
 				发表时间： {{ note.pub_time|date:"Y-m-d H:i" }}
 				<div style="float: right;">
 					<h4>
-					<a href=""><i class="fa fa-edit"></i></a>
-					<a href=""><i class="fa fa-trash"></i></a>
+					<a href="{% url 'edit_note' note.author note.id %}"><i class="fa fa-edit"></i></a>
+					<a href="{% url 'delete_note' note.author note.id %}"><i class="fa fa-trash"></i></a>
 					</h4>
 				</div>
 				<hr>
