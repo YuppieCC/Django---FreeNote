@@ -201,3 +201,13 @@ CKEDITOR_UPLOAD_PATH = "uploads/"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'media') # '/Django-FreeNote/FreeNote/media'
+
+EMAIL_BACKED = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.qq.com'
+EMAIL_HOST_USER = '649736960@qq.com'
+EMAIL_HOST_PASSWORD = 'hcnqobkuaphubehd'  
+EMAIL_USE_TLS = True
+# Port for sending email.  
+EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = '649736960@qq.com'
+
