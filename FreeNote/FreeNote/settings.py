@@ -209,5 +209,5 @@ EMAIL_HOST_PASSWORD = 'hcnqobkuaphubehd'
 EMAIL_USE_TLS = True
 # Port for sending email.  
 EMAIL_PORT = 587
-DEFAULT_FROM_EMAIL = '649736960@qq.com'
+DEFAULT_FROM_EMAIL = 'zys649736960@qq.com'
 

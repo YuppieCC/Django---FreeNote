@@ -61,7 +61,7 @@
                     <li><a href="{% url 'auth_logout' %}?next=/"><i class="fa fa-power-off"></i>注销</a></li>
                 {% else %}
                     <li><a href="{% url 'auth_login' %}"><i class="fa fa-key"></i>登录</a></li>
-                    <li><a href="#"><i class="fa fa-id-card"></i>注册</a></li>
+                    <li><a href="{% url 'registration_register' %}"><i class="fa fa-id-card"></i>注册</a></li>
                 {% endif %}
           </ul>
         </div>

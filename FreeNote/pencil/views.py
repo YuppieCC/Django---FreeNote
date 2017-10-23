@@ -5,12 +5,20 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.auth import login
 from django.views import generic
 from django.core.urlresolvers import reverse
 from django.conf import settings
+from django.db import OperationalError
 
+from registration.forms import RegistrationForm
+
+from send_email import Token, send_html_email
 from forms import NoteForm
 from models import Note
+
+
+token_confirm = Token(settings.SECRET_KEY)
 
 class CkEditorFormView(generic.FormView):
 	form_class = NoteForm
@@ -30,6 +38,53 @@ def index(request):
 def about(request, username):
 	return render(request, 'site/about.html')
 
+def register(request):
+	if request.method == 'POST':
+		user_form = RegistrationForm(request.POST)
+		
+		if user_form.is_valid():
+			username = user_form.cleaned_data.get('username')
+			email = user_form.cleaned_data.get('email')
+			password = user_form.cleaned_data.get('password1')
+			user = User.objects.create_user(username=username, password=password, email=email)
+			user.is_activate = False
+			user.save()
+			token = token_confirm.generate_validate_token(username)
+
+			subject = u'欢迎加入<FreeNote>'
+			link = '/'.join([settings.DOMAIN, 'activate', token])
+			html_content = u'<p>{0}, 欢迎加入 FreeNote ，请访问该链接，完成用户验证:</p>\
+				<br><a href="{1}">点击链接完成验证</a>'.format(username, link)
+			to_list = []
+			to_list.append(email)
+			send_html_email(subject, html_content, to_list)
+			return render(request, 'site/message.html', {'message': u'请登录你的邮箱进行验证'})
+
+	else:
+		user_form = RegistrationForm()
+	context_dict = {'form': user_form}
+	return render(request, 'registration/registration_form.html', context_dict)
+
+def activate_user(request, token):
+	try:
+		username = token_confirm.confirm_validate_token(token)
+	except:
+		username = token_confirm.remove_validate_token(token)
+		users = User.objects.filter(username=username)
+		for user in users:
+			user.delete()
+		return render(request, 'site/message.html', {'message': u'你的验证链接已过期'})
+	try:
+		user = User.objects.get(username=username)
+		user.is_active = True
+		user.save()
+		login(request, user)
+		return render(request, 'site/about.html', {'message': u'恭喜，你的账户已成功激活。'})
+	
+	except User.DoesNotExist:
+		return render(request, 'blah/message.html', {'message': '这个账户不存在'})
+
+
 @login_required
 def note(request, username, note_id):
 	author = User.objects.get(username=username)
@@ -48,16 +103,14 @@ def note_list(request, username=None):
 			title = request.POST['title']
 			content = request.POST['content']
 			content_excerpts = content[:200]
-
+			note_initial = {
+				'title': title, 
+				'content': content,
+			}
 			# check title's length
 			if len(title) > 128:
-				# keep title and content
-				note_initial = {
-					'title': title, 
-					'content': content,
-				}
 				note_form = NoteForm(initial=note_initial)
-				context_dict = {'message': '标题字数过多，请不要超过 128 个字符', 'form': note_form}
+				context_dict = {'message': u'标题字数过多，请不要超过 128 个字符', 'form': note_form}
 				return render(request, 'site/add_note.html', context_dict)
 			else:
 				# add a note
@@ -73,6 +126,11 @@ def note_list(request, username=None):
 		context_dict = {'notes': notes, 'author': author}
 		return render(request, 'site/note_list.html', context_dict)
 
+	except OperationalError:
+		note_form = NoteForm(initial=note_initial)
+		context_dict = {'message': u'对不起，你所输入的符号（如表情符号）暂不支持', 'form': note_form}
+		return render(request, 'site/add_note.html', context_dict)
+
 	except User.DoesNotExist:
 		raise Http404("Not exists.")
 
@@ -82,27 +140,44 @@ def note_list(request, username=None):
 @login_required
 def update_note(request, username, note_id):
 	# commit update
-	if request.method == 'POST':
-		new_title = request.POST['title']
-		new_content = request.POST['content']
-		new_content_excerpts = new_content[:200]
-		Note.objects.filter(id=note_id).update(
-			title = new_title,
-			content = new_content,
-			content_excerpts = new_content_excerpts,
-		)
-		return redirect('note', username=username, note_id=note_id)
+	try:
+		if request.method == 'POST':
+			new_title = request.POST['title']
+			new_content = request.POST['content']
+			new_content_excerpts = new_content[:200]
+			# check title's length
+			new_note_initial = {
+				'title': new_title,
+				'content': new_content,
+			}
+			if len(new_title) > 128:
+				note_form = NoteForm(initial=new_note_initial)
+				context_dict = {'message': u'标题字数过多，请不要超过 128 个字符', 'form': note_form}
+				return render(request, 'site/edit_note.html', context_dict)
+			
+			else:
+				Note.objects.filter(id=note_id).update(
+					title = new_title,
+					content = new_content,
+					content_excerpts = new_content_excerpts,
+				)
+				return redirect('note', username=username, note_id=note_id)
 
-	author = User.objects.get(username=username)
-	note = Note.objects.get(id=note_id)
-	note_initial = {
-		'title': note.title,
-		'content': note.content,
-	}
-	
-	form = NoteForm(initial=note_initial)
-	content_dict = {'note_id': note_id, 'form': form}
-	return render(request, 'site/edit_note.html', content_dict)
+		else:
+			author = User.objects.get(username=username)
+			note = Note.objects.get(id=note_id)
+			note_initial = {
+				'title': note.title,
+				'content': note.content,
+			}
+			form = NoteForm(initial=note_initial)
+			content_dict = {'note_id': note_id, 'form': form}
+			return render(request, 'site/edit_note.html', content_dict)
+
+	except OperationalError:
+		note_form = NoteForm(initial=new_note_initial)
+		context_dict = {'message': u'对不起，你所输入的符号（如表情符号）暂不支持', 'form': note_form}
+		return render(request, 'site/edit_note.html', context_dict)
 
 @login_required
 def delete_note(request, username, note_id):

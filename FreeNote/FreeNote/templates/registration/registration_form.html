@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% block title %}register{% endblock %}
+
 {% block content %}
 
 <br />
@@ -9,7 +11,6 @@
             <form id="login-form" class="form-horizontal" action="." method="post" role="form">
             	{% csrf_token %}
                 <span class="heading">用户注册</span>
-                
                 <div class="form-group">
                     <input type="text" name="username" autofocus required class="form-control" id="id_username" placeholder="用户名">
                     <i class="fa fa-user"></i>

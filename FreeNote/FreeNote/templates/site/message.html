@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}message{% endblock %}
+
+{% block content %}
+
+<div class="alert alert-danger">
+	<p style="color: black;">
+    	{% if message %}
+    	{{ message }}
+    	{% endif %}
+    	<p>如有问题，联系邮箱：eacentcheung@gmail.com</p>
+    </p>
+</div>
+
+{% endblock %}
