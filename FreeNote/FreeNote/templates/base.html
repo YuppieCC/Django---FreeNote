@@ -12,6 +12,7 @@
     <link rel="icon" type="image" href="https://en.gravatar.com/userimage/113672373/9c021ba03fa56ddd1d94a7278dc55b2a.png">
 
     <title>FreeNote - {% block title %}{% endblock %}</title>
+    <link href="{% static "css/skin.css" %}" rel="stylesheet" type="text/css"/>
 
     <!-- Bootstrap core CSS -->
 
@@ -45,8 +46,8 @@
           <a class="navbar-brand"  href="{% url 'Home' %}"><i class="fa fa-home fa-fw"></i>FreeNote</a>
           
           {% if user.is_authenticated %}
-          <a class="navbar-brand" href="{% url 'note_list' user.username %}"><i class="fa fa-book"></i> 我的笔记</a>
-          <a class="navbar-brand" href="{% url 'add_note' user.username %}"><i class="fa fa-plus"></i> 新建</a>
+          <a class="navbar-brand" href="{% url 'note_list' user.username %}"><i class="fa fa-book"></i></a>
+          <a class="navbar-brand" href="{% url 'add_note' user.username %}"><i class="fa fa-plus"></i></a>
           {% endif %}
 
         </div>
@@ -57,8 +58,8 @@
             			<!-- <input type="text" class="form-control" placeholder="Search..."> -->
           		    </form>
                     <li><a href="{% url 'auth_password_change' %}"><i class="fa fa-refresh"></i>修改密码</a></li>
-                    <li><a href="{% url 'about' user.username %}"><i class="fa fa-user"></i>个人</a></li>
-                    <li><a href="{% url 'auth_logout' %}?next=/"><i class="fa fa-power-off"></i>注销</a></li>
+                    <li><a href="{% url 'about' user.username %}"><i class="fa fa-user"></i></a></li>
+                    <li><a href="{% url 'auth_logout' %}?next=/"><i class="fa fa-power-off"></i></a></li>
                 {% else %}
                     <li><a href="{% url 'auth_login' %}"><i class="fa fa-key"></i>登录</a></li>
                     <li><a href="{% url 'registration_register' %}"><i class="fa fa-id-card"></i>注册</a></li>

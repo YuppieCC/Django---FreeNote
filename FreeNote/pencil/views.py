@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.contrib.auth import login
+from django.contrib.auth import login, forms
 from django.views import generic
 from django.core.urlresolvers import reverse
 from django.conf import settings
@@ -41,7 +41,6 @@ def about(request, username):
 def register(request):
 	if request.method == 'POST':
 		user_form = RegistrationForm(request.POST)
-		
 		if user_form.is_valid():
 			username = user_form.cleaned_data.get('username')
 			email = user_form.cleaned_data.get('email')
@@ -58,12 +57,62 @@ def register(request):
 			to_list = []
 			to_list.append(email)
 			send_html_email(subject, html_content, to_list)
-			return render(request, 'site/message.html', {'message': u'请登录你的邮箱进行验证'})
-
+			return render(request, 'site/message.html', {'message': u'请登录你的邮箱按提示进行操作'})
 	else:
 		user_form = RegistrationForm()
 	context_dict = {'form': user_form}
 	return render(request, 'registration/registration_form.html', context_dict)
+
+def password_reset(request):
+	try:
+		if request.method == 'POST':
+			email = request.POST['email']
+			user = User.objects.get(email=email)
+			token = token_confirm.generate_validate_token(user.username)
+			# send email
+			subject = u'<FreeNote>用户重设密码信息'
+			link = '/'.join([settings.DOMAIN, 'passwordreset', user.username, token])
+			html_content = u'<p>{0}, 欢迎使用 FreeNote ，请访问该链接，完成用户重设密码:</p>\
+				<br><a href="{1}">点击链接完成验证</a>'.format(user.username, link)
+			to_list = []
+			to_list.append(email)
+			send_html_email(subject, html_content, to_list)
+			return render(request, 'site/message.html', {'message': u'请登录你的邮箱按提示进行操作'})
+
+		else:
+			return render(request, 'registration/password_reset.html')
+
+	except User.DoesNotExist:
+		message = 'User with this Email address does not exists'
+		return render(request, 'registration/password_reset.html', {'message': message})
+
+def password_reset_done(request, username, token):
+	try:
+		user = User.objects.get(username=username)
+		user_confirm = token_confirm.confirm_validate_token(token)
+		if request.method == 'POST':
+			form = forms.SetPasswordForm(user, request.POST)
+			if form.is_valid():
+				user.set_password(form.cleaned_data.get('new_password1'))
+				user.save()
+				login(request, user)
+				return redirect('index')
+			else:
+				return render(request, 'registration/password_reset_done.html', {'form': form})
+
+		else:
+			form = forms.SetPasswordForm(user)
+			return render(request, 'registration/password_reset_done.html', {'form': form})
+
+	except User.DoesNotExist:
+		return render(request, 'site/message.html', {'message': u'这个账户不存在'})
+
+	except:
+		user_confirm = token_confirm.remove_validate_token(token)
+		users = User.objects.filter(username=username)
+		for user in users:
+			user.delete()
+		return render(request, 'site/message.html', {'message': u'你的验证链接已过期'})
 
 def activate_user(request, token):
 	try:
@@ -79,10 +128,10 @@ def activate_user(request, token):
 		user.is_active = True
 		user.save()
 		login(request, user)
-		return render(request, 'site/about.html', {'message': u'恭喜，你的账户已成功激活。'})
+		return render(request, 'site/note_list.html', {'message': u'恭喜，你的账户已成功激活。'})
 	
 	except User.DoesNotExist:
-		return render(request, 'blah/message.html', {'message': '这个账户不存在'})
+		return render(request, 'blah/message.html', {'message': u'这个账户不存在'})
 
 
 @login_required

@@ -4,15 +4,9 @@
 
 {% block content %}
 
-<br />
 <div class="container">
     <div class="container">
         <div class="col-md-offset-3 col-md-6">
-            {% if message %}
-            <div class="alert alert-danger" style="">
-                <p style="color: black;">{{ message }}</p>
-            </div>
-            {% endif %}
             <form id="login-form" class="form-horizontal">
                 {% if user.is_authenticated %}
                 	<span class="heading">用户资料</span>

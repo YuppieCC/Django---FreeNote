@@ -127,6 +127,9 @@ USE_L10N = True
 
 USE_TZ = True
 
+
+LOGIN_URL = '/index/'
+
 # registration
 REGISTRATION_OPEN = True       # If True, users can register
 ACCOUNT_ACTIVATION_DAYS = 7     # One-week activation window; you may, of course, use a different value.
@@ -204,10 +207,10 @@ MEDIA_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'media') #
 
 EMAIL_BACKED = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.qq.com'
-EMAIL_HOST_USER = '649736960@qq.com'
-EMAIL_HOST_PASSWORD = 'hcnqobkuaphubehd'  
+EMAIL_HOST_USER = 'freenoteam@qq.com'
+EMAIL_HOST_PASSWORD = 'facjzukuffjtbbdg'  
 EMAIL_USE_TLS = True
 # Port for sending email.  
 EMAIL_PORT = 587
-DEFAULT_FROM_EMAIL = 'zys649736960@qq.com'
+DEFAULT_FROM_EMAIL = 'freenoteam@qq.com'
 

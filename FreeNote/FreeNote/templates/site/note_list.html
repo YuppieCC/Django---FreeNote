@@ -24,8 +24,14 @@
 			<br />
 		{% endfor %}
 {% else %}
+	
 <div class="container">
 	<div class="col-md-offset-3 col-md-6">
+		{% if message %}
+    	<div class="alert alert-danger" style="background-color: #f1f9f7; border-color: #e0f1e9;">
+        	<p style="color: #1d9d74;">{{ message }}</p>
+    	</div>
+		{% endif %}
         <form id="login-form" class="form-horizontal">
             <span class="heading">开始你的第一篇日记</span>
     			<a href="{% url 'add_note' user.username %}"><i class="fa fa-pencil fa-4x"></i></a>
