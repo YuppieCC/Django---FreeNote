@@ -243,4 +243,16 @@ def delete_note(request, username, note_id):
 		raise Http404('This is note does not exist.')
 
 
+def page_not_found(request):
+	return render(request, 'site/message.html', {'message': '404 Page not found'})
+
+def server_error(request):
+	return render(request, 'site/message.html', {'message': '500 Server Error'})
+
+def permission_denied(request):
+	return render(request, 'site/message.html', {'message': '403 Permission denied'})
+
+def bad_request(request):
+	return redner(request, 'site/message.html', {'message': '400 Bad request'})
+
 

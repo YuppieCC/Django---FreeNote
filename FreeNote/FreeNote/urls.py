@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from django.conf.urls import include, url
+from django.conf.urls import (include, url, handler404, handler500,
+	handler403, handler400)
 from django.contrib import admin
 
 import registration
@@ -17,3 +18,9 @@ urlpatterns = [
     url(r'^activate/(?P<token>\w+.[-_\w]*\w+.[-_\w]*\w+)/$', views.activate_user, name='activate_user'),
     url(r'^accounts/', include('registration.backends.simple.urls')),
 ]
+
+
+handler404 = 'pencil.views.page_not_found'
+handler500 = 'pencil.views.server_error'
+handler403 = 'pencil.views.permission_denied'
+handler400 = 'pencil.views.bad_request'

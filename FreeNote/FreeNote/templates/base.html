@@ -16,7 +16,7 @@
 
     <!-- Bootstrap core CSS -->
 
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
     <link href="https://getbootstrap.com/docs/3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -46,8 +46,8 @@
           <a class="navbar-brand"  href="{% url 'Home' %}"><i class="fa fa-home fa-fw"></i>FreeNote</a>
           
           {% if user.is_authenticated %}
-          <a class="navbar-brand" href="{% url 'note_list' user.username %}"><i class="fa fa-book"></i></a>
-          <a class="navbar-brand" href="{% url 'add_note' user.username %}"><i class="fa fa-plus"></i></a>
+              <a class="navbar-brand" href="{% url 'note_list' user.username %}"><i class="fa fa-book"></i></a>
+              <a class="navbar-brand" href="{% url 'add_note' user.username %}"><i class="fa fa-pencil"></i>...</a>
           {% endif %}
 
         </div>
@@ -57,12 +57,11 @@
                     <form class="navbar-form navbar-left">
             			<!-- <input type="text" class="form-control" placeholder="Search..."> -->
           		    </form>
-                    <li><a href="{% url 'auth_password_change' %}"><i class="fa fa-refresh"></i>修改密码</a></li>
                     <li><a href="{% url 'about' user.username %}"><i class="fa fa-user"></i></a></li>
                     <li><a href="{% url 'auth_logout' %}?next=/"><i class="fa fa-power-off"></i></a></li>
                 {% else %}
-                    <li><a href="{% url 'auth_login' %}"><i class="fa fa-key"></i>登录</a></li>
-                    <li><a href="{% url 'registration_register' %}"><i class="fa fa-id-card"></i>注册</a></li>
+                    <li><a href="{% url 'auth_login' %}">登录</a></li>
+                    <li><a href="{% url 'registration_register' %}">注册</a></li>
                 {% endif %}
           </ul>
         </div>
