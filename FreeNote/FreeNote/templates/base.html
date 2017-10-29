@@ -44,21 +44,19 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand"  href="{% url 'Home' %}"><i class="fa fa-home fa-fw"></i>FreeNote</a>
-          
           {% if user.is_authenticated %}
               <a class="navbar-brand" href="{% url 'note_list' user.username %}"><i class="fa fa-book"></i></a>
               <a class="navbar-brand" href="{% url 'add_note' user.username %}"><i class="fa fa-pencil"></i>...</a>
           {% endif %}
-
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
-                    <form class="navbar-form navbar-left">
-            			<!-- <input type="text" class="form-control" placeholder="Search..."> -->
-          		    </form>
-                    <li><a href="{% url 'about' user.username %}"><i class="fa fa-user"></i></a></li>
-                    <li><a href="{% url 'auth_logout' %}?next=/"><i class="fa fa-power-off"></i></a></li>
+                      <form class="navbar-form navbar-left">
+            		  	<!-- <input type="text" class="form-control" placeholder="Search..."> -->
+          		        </form>
+                      <li><a href="{% url 'about' user.username %}"><i class="fa fa-user"></i></a></li>
+                      <li><a href="{% url 'auth_logout' %}?next=/"><i class="fa fa-power-off"></i></a></li>
                 {% else %}
                     <li><a href="{% url 'auth_login' %}">登录</a></li>
                     <li><a href="{% url 'registration_register' %}">注册</a></li>

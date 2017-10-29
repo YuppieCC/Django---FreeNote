@@ -31,13 +31,13 @@
         <ul class="navbar-nav mr-auto">
           {% if user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'about' user.username %}"><i class="fa fa-user"></i>&nbsp;</a>
+            <a class="nav-link" href="{% url 'about' user.username %}"><i class="fa fa-user"></i></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'note_list' user.username %}"><i class="fa fa-book"></i>&nbsp;</a>
+            <a class="nav-link" href="{% url 'note_list' user.username %}"><i class="fa fa-book"></i></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'auth_logout' %}?next=/"><i class="fa fa-power-off"></i>&nbsp;</a>
+            <a class="nav-link" href="{% url 'auth_logout' %}?next=/"><i class="fa fa-power-off"></i></a>
           </li>
           {% else %}
           <li class="nav-item">

@@ -46,7 +46,7 @@ def register(request):
 			email = user_form.cleaned_data.get('email')
 			password = user_form.cleaned_data.get('password1')
 			user = User.objects.create_user(username=username, password=password, email=email)
-			user.is_activate = False
+			user.is_active = False
 			user.save()
 			token = token_confirm.generate_validate_token(username)
 

@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))      # '/
 SECRET_KEY = 'p)-93tk!+g)-h)v4wcm*62q1hpy907+1u(a8c90#we1b-v&43g'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -187,6 +187,10 @@ STATIC_ROOT:
 默认: None
 
 collectstatic用于部署而收集的静态文件的目录的绝对路径。
+
+# 当运行 python manage.py collectstatic 的时候
+# STATIC_ROOT 文件夹 是用来将所有STATICFILES_DIRS中所有文件夹中的文件，以及各app中static中的文件都复制过来
+# 把这些文件放到一起是为了用apache等部署的时候更方便
 
 示例："/var/www/example.com/static/"
 '''
