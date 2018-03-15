@@ -186,11 +186,15 @@ STATIC_ROOT:
 
 默认: None
 
-collectstatic用于部署而收集的静态文件的目录的绝对路径。
+collectstatic 用于部署而收集的静态文件的目录的绝对路径。
 
 # 当运行 python manage.py collectstatic 的时候
 # STATIC_ROOT 文件夹 是用来将所有 STATICFILES_DIRS 中所有文件夹中的文件，以及各 app 中 static 中的文件都复制过来
+<<<<<<< HEAD
 # 把这些文件放到一起是为了用apache等部署的时候更方便
+=======
+# 把这些文件放到一起是为了用 apache 等部署的时候更方便
+>>>>>>> master
 
 示例："/var/www/example.com/static/"
 '''
