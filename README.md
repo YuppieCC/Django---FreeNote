@@ -3,7 +3,7 @@
 ## Introduction
 一个可以在线编辑笔记或文章的网站。
 ```
-部署：CentOS + Nginx + Gunicorn + MySQL
+部署：Ubuntu + Nginx + uwsgi + Supervisor
 ```
 
 ## Show
